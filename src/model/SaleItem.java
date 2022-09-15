@@ -1,24 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author 12093156610
- */
 public class SaleItem {
     
     private Product product;
     private int quantity;
     
-    public SaleItem(int productId) {
+    public SaleItem(int productId, int quantity) {
+        this.quantity = quantity;
         
         DataBase db = new DataBase();
+        String[] productData = db.selectProduct(productId);
         
-        this.product = db.selectProduct(productId);
+        product = new Product();
+        product.setDescription(productData[0]);
+        product.setPrice(Double.parseDouble(productData[1]));
     }
 
     public double calculateSaleItem() {

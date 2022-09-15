@@ -1,46 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author 12093156610
- */
 public class DataBase {
     
-    private Map<Integer, String[]> products;
+    private Map<Integer, String[]> products = new HashMap<>();
+    
+    private Map<String, Payment> payment = new HashMap();
     
     public DataBase() {
-        products = new HashMap<Integer, String[]>();
-        
         products.put(1, new String[] {"Arroz", "10"});
         products.put(2, new String[] {"Feijão", "14"});
         products.put(3, new String[] {"Farinha", "6"});
+        
+        CreditCard cc = new CreditCard(5);
+        DebitCard dc = new DebitCard(0);
+        Money m = new Money(5);
+        
+        payment.put("cc", cc);
+        payment.put("dc", dc);
+        payment.put("m", m);
     }
     
-    public Product selectProduct(int productId) {
-        
-        if (products.containsKey(productId)) {
-            Product p = new Product();
-            p.setId(productId);
-            
-            String[] values = products.get(productId);
-            p.setDescription(values[0]);
-            p.setPrice(Integer.parseInt(values[1]));
-            
-            return p;
+    public String[] selectProduct(Integer productId) {
+        if (!this.products.containsKey(productId)) {
+            return new String[]{"Produto inválido!", "0"};
         }
         
-        Product invalid = new Product();
-        invalid.setDescription("Invalid Product");
-        invalid.setPrice(0);
-        
-        return invalid;
+        return this.products.get(productId);
+    }
+    
+    Payment selectPaymentForm(String form) {
+        return payment.get(form);
     }
 }
